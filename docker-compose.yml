@@ -11,6 +11,11 @@ services:
         environment:
             ME_CONFIG_MONGODB_ADMINUSERNAME: root
             ME_CONFIG_MONGODB_ADMINPASSWORD: root
+    mongo-seed:
+        build:
+            context: ./mongo-seed
+        depends_on:
+            - mongo
     redis:
         build:
             context: ./redis
