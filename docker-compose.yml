@@ -3,6 +3,10 @@ services:
     mongo:
         build:
             context: ./mongodb
+        ports:
+            - 27017:27017
+        networks:
+            - go-caching
     mongo-express:
         image: mongo-express
         restart: always
@@ -11,11 +15,32 @@ services:
         environment:
             ME_CONFIG_MONGODB_ADMINUSERNAME: root
             ME_CONFIG_MONGODB_ADMINPASSWORD: root
+        networks:
+            - go-caching
     mongo-seed:
         build:
             context: ./mongo-seed
         depends_on:
             - mongo
+        networks:
+            - go-caching
     redis:
         build:
             context: ./redis
+        ports:
+            - 6379:6379
+        networks:
+            - go-caching
+    go:
+        build:
+            context: ./go
+        ports:
+            - 8080:8080
+        depends_on:
+            - mongo
+            - redis
+        networks:
+            - go-caching
+
+networks:
+  go-caching:   
