@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 	"time"
@@ -94,8 +93,7 @@ func main() {
 			response.Cache = false
 		} else {
 			var res []DataMongo
-			// fmt.Println(val)
-			// strData, _ := strconv.Unquote(string(val))
+
 			err = json.Unmarshal([]byte(val), &res)
 			if err != nil {
 				panic(err.Error())
@@ -108,8 +106,6 @@ func main() {
 		response.Start = start
 		response.End = end
 		response.TotalMicrosecond = end.Sub(start).Microseconds()
-
-		fmt.Println(response.TotalMicrosecond)
 
 		return c.JSON(http.StatusOK, response)
 	})
